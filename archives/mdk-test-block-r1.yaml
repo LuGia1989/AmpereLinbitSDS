@@ -1,0 +1,180 @@
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: linstor-r1-n0-0
+spec:
+  accessModes:
+    - ReadWriteOnce
+  volumeMode: Block
+  resources:
+    requests:
+      storage: 10Gi
+  storageClassName: linstor-r1-n0
+---
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: fio-bench-r1-n0-0
+  labels:
+    app: linstorbench
+  namespace: default
+spec:
+  template:
+    metadata:
+      labels:
+        app: linstorbench
+    spec:
+      containers:
+      - name: fio-bench
+        image: kermat/arm64-ubuntu-fio:0.0.1
+        command: ["/usr/bin/fio"]
+        args:
+          - --name=iops-test
+          - --filename=/dev/block
+          - --ioengine=libaio
+          - --direct=1
+          - --invalidate=0
+          - --rw=randwrite
+          - --bs=4k
+          - --runtime=90s
+          - --numjobs=8
+          - --iodepth=64
+          - --group_reporting
+        volumeDevices:
+          - name: linstor-vol
+            devicePath: /dev/block
+        securityContext:
+          capabilities:
+            add: ["SYS_RAWIO"]
+      restartPolicy: Never
+      volumes:
+        - name: linstor-vol
+          persistentVolumeClaim:
+            claimName: linstor-r1-n0-0
+      initContainers:
+      - name: wait-for-sync
+        image: curlimages/curl
+        command: ["/bin/sh"]
+        args: ["-c", "t=0; while [ $t -lt 3 ]; do t=0; for n in 198 56 195; do r=$(curl -s 192.168.4.$n:9942 | grep ^drbd_resource_resources | cut -d' ' -f2 | grep -o [0-9]); t=$(($t+$r)); done; sleep 10s; done"]
+  backoffLimit: 4
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: linstor-r1-n0-1
+spec:
+  accessModes:
+    - ReadWriteOnce
+  volumeMode: Block
+  resources:
+    requests:
+      storage: 10Gi
+  storageClassName: linstor-r1-n0
+---
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: fio-bench-r1-n0-1
+  labels:
+    app: linstorbench
+  namespace: default
+spec:
+  template:
+    metadata:
+      labels:
+        app: linstorbench
+    spec:
+      containers:
+      - name: fio-bench
+        image: kermat/arm64-ubuntu-fio:0.0.1
+        command: ["/usr/bin/fio"]
+        args:
+          - --name=iops-test
+          - --filename=/dev/block
+          - --ioengine=libaio
+          - --direct=1
+          - --invalidate=0
+          - --rw=randwrite
+          - --bs=4k
+          - --runtime=90s
+          - --numjobs=8
+          - --iodepth=64
+          - --group_reporting
+        volumeDevices:
+          - name: linstor-vol
+            devicePath: /dev/block
+        securityContext:
+          capabilities:
+            add: ["SYS_RAWIO"]
+      restartPolicy: Never
+      volumes:
+        - name: linstor-vol
+          persistentVolumeClaim:
+            claimName: linstor-r1-n0-1
+      initContainers:
+      - name: wait-for-sync
+        image: curlimages/curl
+        command: ["/bin/sh"]
+        args: ["-c", "t=0; while [ $t -lt 3 ]; do t=0; for n in 198 56 195; do r=$(curl -s 192.168.4.$n:9942 | grep ^drbd_resource_resources | cut -d' ' -f2 | grep -o [0-9]); t=$(($t+$r)); done; sleep 10s; done"]
+  backoffLimit: 4
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: linstor-r1-n0-2
+spec:
+  accessModes:
+    - ReadWriteOnce
+  volumeMode: Block
+  resources:
+    requests:
+      storage: 10Gi
+  storageClassName: linstor-r1-n0
+---
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: fio-bench-r1-n0-2
+  labels:
+    app: linstorbench
+  namespace: default
+spec:
+  template:
+    metadata:
+      labels:
+        app: linstorbench
+    spec:
+      containers:
+      - name: fio-bench
+        image: kermat/arm64-ubuntu-fio:0.0.1
+        command: ["/usr/bin/fio"]
+        args:
+          - --name=iops-test
+          - --filename=/dev/block
+          - --ioengine=libaio
+          - --direct=1
+          - --invalidate=0
+          - --rw=randwrite
+          - --bs=4k
+          - --runtime=90s
+          - --numjobs=8
+          - --iodepth=64
+          - --group_reporting
+        volumeDevices:
+          - name: linstor-vol
+            devicePath: /dev/block
+        securityContext:
+          capabilities:
+            add: ["SYS_RAWIO"]
+      restartPolicy: Never
+      volumes:
+        - name: linstor-vol
+          persistentVolumeClaim:
+            claimName: linstor-r1-n0-2
+      initContainers:
+      - name: wait-for-sync
+        image: curlimages/curl
+        command: ["/bin/sh"]
+        args: ["-c", "t=0; while [ $t -lt 3 ]; do t=0; for n in 198 56 195; do r=$(curl -s 192.168.4.$n:9942 | grep ^drbd_resource_resources | cut -d' ' -f2 | grep -o [0-9]); t=$(($t+$r)); done; sleep 10s; done"]
+  backoffLimit: 4

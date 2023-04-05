@@ -1,0 +1,240 @@
+---
+apiVersion: storage.k8s.io/v1
+kind: StorageClass
+metadata:
+  name: "linstor-r1-n0"
+provisioner: linstor.csi.linbit.com
+parameters:
+  allowRemoteVolumeAccess: "false"
+  autoPlace: "1"
+  storagePool: "lvm-thick-nvme0n1"
+  DrbdOptions/Disk/al-extents: "6007"
+  DrbdOptions/Disk/disk-barrier: "no"
+  DrbdOptions/Disk/disk-flushes: "no"
+  DrbdOptions/Disk/md-flushes: "no"
+  DrbdOptions/Net/max-buffers: "10000"
+  DrbdOptions/auto-quorum: suspend-io
+  DrbdOptions/Resource/on-no-data-accessible: suspend-io
+  DrbdOptions/Resource/on-suspended-primary-outdated: force-secondary
+  DrbdOptions/Net/rr-conflict: retry-connect
+  DrbdOptions/Resource/cpu-mask: "ffff,ffffffff,ffffffff,ffffffff"
+  property.linstor.csi.linbit.com/StorPoolNameDrbdMeta: "metapool-nvme6n1"
+reclaimPolicy: Delete
+allowVolumeExpansion: true
+volumeBindingMode: WaitForFirstConsumer
+---
+apiVersion: storage.k8s.io/v1
+kind: StorageClass
+metadata:
+  name: "linstor-r2-n0"
+provisioner: linstor.csi.linbit.com
+parameters:
+  allowRemoteVolumeAccess: "false"
+  autoPlace: "2"
+  storagePool: "lvm-thick-nvme0n1"
+  DrbdOptions/Disk/al-extents: "6007"
+  DrbdOptions/Disk/disk-barrier: "no"
+  DrbdOptions/Disk/disk-flushes: "no"
+  DrbdOptions/Disk/md-flushes: "no"
+  DrbdOptions/Net/max-buffers: "10000"
+  DrbdOptions/auto-quorum: suspend-io
+  DrbdOptions/Resource/on-no-data-accessible: suspend-io
+  DrbdOptions/Resource/on-suspended-primary-outdated: force-secondary
+  DrbdOptions/Net/rr-conflict: retry-connect
+  DrbdOptions/Resource/cpu-mask: "ffff,ffffffff,ffffffff,ffffffff"
+  property.linstor.csi.linbit.com/StorPoolNameDrbdMeta: "metapool-nvme6n1"
+reclaimPolicy: Delete
+allowVolumeExpansion: true
+volumeBindingMode: WaitForFirstConsumer
+---
+apiVersion: storage.k8s.io/v1
+kind: StorageClass
+metadata:
+  name: "linstor-r1-n1"
+provisioner: linstor.csi.linbit.com
+parameters:
+  allowRemoteVolumeAccess: "false"
+  autoPlace: "1"
+  storagePool: "lvm-thick-nvme1n1"
+  DrbdOptions/Disk/al-extents: "6007"
+  DrbdOptions/Disk/disk-barrier: "no"
+  DrbdOptions/Disk/disk-flushes: "no"
+  DrbdOptions/Disk/md-flushes: "no"
+  DrbdOptions/Net/max-buffers: "10000"
+  DrbdOptions/auto-quorum: suspend-io
+  DrbdOptions/Resource/on-no-data-accessible: suspend-io
+  DrbdOptions/Resource/on-suspended-primary-outdated: force-secondary
+  DrbdOptions/Net/rr-conflict: retry-connect
+  DrbdOptions/Resource/cpu-mask: "ffff,ffffffff,ffffffff,ffffffff"
+  property.linstor.csi.linbit.com/StorPoolNameDrbdMeta: "metapool-nvme6n1"
+reclaimPolicy: Delete
+allowVolumeExpansion: true
+volumeBindingMode: WaitForFirstConsumer
+---
+apiVersion: storage.k8s.io/v1
+kind: StorageClass
+metadata:
+  name: "linstor-r2-n1"
+provisioner: linstor.csi.linbit.com
+parameters:
+  allowRemoteVolumeAccess: "false"
+  autoPlace: "2"
+  storagePool: "lvm-thick-nvme1n1"
+  DrbdOptions/Disk/al-extents: "6007"
+  DrbdOptions/Disk/disk-barrier: "no"
+  DrbdOptions/Disk/disk-flushes: "no"
+  DrbdOptions/Disk/md-flushes: "no"
+  DrbdOptions/Net/max-buffers: "10000"
+  DrbdOptions/auto-quorum: suspend-io
+  DrbdOptions/Resource/on-no-data-accessible: suspend-io
+  DrbdOptions/Resource/on-suspended-primary-outdated: force-secondary
+  DrbdOptions/Net/rr-conflict: retry-connect
+  DrbdOptions/Resource/cpu-mask: "ffff,ffffffff,ffffffff,ffffffff"
+  property.linstor.csi.linbit.com/StorPoolNameDrbdMeta: "metapool-nvme6n1"
+reclaimPolicy: Delete
+allowVolumeExpansion: true
+volumeBindingMode: WaitForFirstConsumer
+---
+apiVersion: storage.k8s.io/v1
+kind: StorageClass
+metadata:
+  name: "linstor-r1-n3"
+provisioner: linstor.csi.linbit.com
+parameters:
+  allowRemoteVolumeAccess: "false"
+  autoPlace: "1"
+  storagePool: "lvm-thick-nvme3n1"
+  DrbdOptions/Disk/al-extents: "6007"
+  DrbdOptions/Disk/disk-barrier: "no"
+  DrbdOptions/Disk/disk-flushes: "no"
+  DrbdOptions/Disk/md-flushes: "no"
+  DrbdOptions/Net/max-buffers: "10000"
+  DrbdOptions/auto-quorum: suspend-io
+  DrbdOptions/Resource/on-no-data-accessible: suspend-io
+  DrbdOptions/Resource/on-suspended-primary-outdated: force-secondary
+  DrbdOptions/Net/rr-conflict: retry-connect
+  DrbdOptions/Resource/cpu-mask: "ffff,ffffffff,ffffffff,ffffffff"
+  property.linstor.csi.linbit.com/StorPoolNameDrbdMeta: "metapool-nvme6n1"
+reclaimPolicy: Delete
+allowVolumeExpansion: true
+volumeBindingMode: WaitForFirstConsumer
+---
+apiVersion: storage.k8s.io/v1
+kind: StorageClass
+metadata:
+  name: "linstor-r2-n3"
+provisioner: linstor.csi.linbit.com
+parameters:
+  allowRemoteVolumeAccess: "false"
+  autoPlace: "2"
+  storagePool: "lvm-thick-nvme3n1"
+  DrbdOptions/Disk/al-extents: "6007"
+  DrbdOptions/Disk/disk-barrier: "no"
+  DrbdOptions/Disk/disk-flushes: "no"
+  DrbdOptions/Disk/md-flushes: "no"
+  DrbdOptions/Net/max-buffers: "10000"
+  DrbdOptions/auto-quorum: suspend-io
+  DrbdOptions/Resource/on-no-data-accessible: suspend-io
+  DrbdOptions/Resource/on-suspended-primary-outdated: force-secondary
+  DrbdOptions/Net/rr-conflict: retry-connect
+  DrbdOptions/Resource/cpu-mask: "ffff,ffffffff,ffffffff,ffffffff"
+  property.linstor.csi.linbit.com/StorPoolNameDrbdMeta: "metapool-nvme6n1"
+reclaimPolicy: Delete
+allowVolumeExpansion: true
+volumeBindingMode: WaitForFirstConsumer
+---
+apiVersion: storage.k8s.io/v1
+kind: StorageClass
+metadata:
+  name: "linstor-r1-n4"
+provisioner: linstor.csi.linbit.com
+parameters:
+  allowRemoteVolumeAccess: "false"
+  autoPlace: "1"
+  storagePool: "lvm-thick-nvme4n1"
+  DrbdOptions/Disk/al-extents: "6007"
+  DrbdOptions/Disk/disk-barrier: "no"
+  DrbdOptions/Disk/disk-flushes: "no"
+  DrbdOptions/Disk/md-flushes: "no"
+  DrbdOptions/Net/max-buffers: "10000"
+  DrbdOptions/auto-quorum: suspend-io
+  DrbdOptions/Resource/on-no-data-accessible: suspend-io
+  DrbdOptions/Resource/on-suspended-primary-outdated: force-secondary
+  DrbdOptions/Net/rr-conflict: retry-connect
+  DrbdOptions/Resource/cpu-mask: "ffff,ffffffff,ffffffff,ffffffff"
+  property.linstor.csi.linbit.com/StorPoolNameDrbdMeta: "metapool-nvme6n1"
+reclaimPolicy: Delete
+allowVolumeExpansion: true
+volumeBindingMode: WaitForFirstConsumer
+---
+apiVersion: storage.k8s.io/v1
+kind: StorageClass
+metadata:
+  name: "linstor-r2-n4"
+provisioner: linstor.csi.linbit.com
+parameters:
+  allowRemoteVolumeAccess: "false"
+  autoPlace: "2"
+  storagePool: "lvm-thick-nvme4n1"
+  DrbdOptions/Disk/al-extents: "6007"
+  DrbdOptions/Disk/disk-barrier: "no"
+  DrbdOptions/Disk/disk-flushes: "no"
+  DrbdOptions/Disk/md-flushes: "no"
+  DrbdOptions/Net/max-buffers: "10000"
+  DrbdOptions/auto-quorum: suspend-io
+  DrbdOptions/Resource/on-no-data-accessible: suspend-io
+  DrbdOptions/Resource/on-suspended-primary-outdated: force-secondary
+  DrbdOptions/Net/rr-conflict: retry-connect
+  DrbdOptions/Resource/cpu-mask: "ffff,ffffffff,ffffffff,ffffffff"
+  property.linstor.csi.linbit.com/StorPoolNameDrbdMeta: "metapool-nvme6n1"
+reclaimPolicy: Delete
+allowVolumeExpansion: true
+volumeBindingMode: WaitForFirstConsumer
+---
+apiVersion: storage.k8s.io/v1
+kind: StorageClass
+metadata:
+  name: "linstor-r1-n5"
+provisioner: linstor.csi.linbit.com
+parameters:
+  allowRemoteVolumeAccess: "false"
+  autoPlace: "1"
+  storagePool: "lvm-thick-nvme5n1"
+  DrbdOptions/Disk/al-extents: "6007"
+  DrbdOptions/Disk/disk-barrier: "no"
+  DrbdOptions/Disk/disk-flushes: "no"
+  DrbdOptions/Disk/md-flushes: "no"
+  DrbdOptions/Net/max-buffers: "10000"
+  DrbdOptions/auto-quorum: suspend-io
+  DrbdOptions/Resource/on-no-data-accessible: suspend-io
+  DrbdOptions/Resource/on-suspended-primary-outdated: force-secondary
+  DrbdOptions/Net/rr-conflict: retry-connect
+  DrbdOptions/Resource/cpu-mask: "ffff,ffffffff,ffffffff,ffffffff"
+  property.linstor.csi.linbit.com/StorPoolNameDrbdMeta: "metapool-nvme6n1"
+reclaimPolicy: Delete
+allowVolumeExpansion: true
+volumeBindingMode: WaitForFirstConsumer
+---
+apiVersion: storage.k8s.io/v1
+kind: StorageClass
+metadata:
+  name: "linstor-r2-n5"
+provisioner: linstor.csi.linbit.com
+parameters:
+  allowRemoteVolumeAccess: "false"
+  autoPlace: "2"
+  storagePool: "lvm-thick-nvme5n1"
+  DrbdOptions/Disk/al-extents: "6007"
+  DrbdOptions/Disk/disk-barrier: "no"
+  DrbdOptions/Disk/disk-flushes: "no"
+  DrbdOptions/Disk/md-flushes: "no"
+  DrbdOptions/Net/max-buffers: "10000"
+  DrbdOptions/auto-quorum: suspend-io
+  DrbdOptions/Resource/on-no-data-accessible: suspend-io
+  DrbdOptions/Resource/on-suspended-primary-outdated: force-secondary
+  DrbdOptions/Net/rr-conflict: retry-connect
+  DrbdOptions/Resource/cpu-mask: "ffff,ffffffff,ffffffff,ffffffff"
+  property.linstor.csi.linbit.com/StorPoolNameDrbdMeta: "metapool-nvme6n1"
+reclaimPolicy: Delete
+allowVolumeExpansion: true
+volumeBindingMode: WaitForFirstConsumer

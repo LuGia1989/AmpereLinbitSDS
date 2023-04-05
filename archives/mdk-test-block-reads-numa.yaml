@@ -1,0 +1,60 @@
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: linstor-r2-n0-0
+spec:
+  accessModes:
+    - ReadWriteOnce
+  volumeMode: Block
+  resources:
+    requests:
+      storage: 10Gi
+  storageClassName: linstor-r2-n0
+---
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: fio-bench-r2-n0-0
+  labels:
+    app: linstorbench
+  namespace: default
+spec:
+  template:
+    spec:
+      containers:
+      - name: fio-bench
+        image: kermat/arm64-ubuntu-fio:0.0.1
+        command: ["/usr/bin/fio"]
+        args:
+          - --name=iops-test
+          - --filename=/dev/block
+          - --ioengine=libaio
+          - --direct=1
+          - --invalidate=0
+          - --rw=randread
+          - --bs=4k
+          - --runtime=300s
+          - --numjobs=16
+          - --iodepth=64
+          - --numa_mem_policy=bind:0
+          - --numa_cpu_nodes=0
+          - --cpus_allowed=0-127
+          - --group_reporting
+          - --significant_figures=10
+        volumeDevices:
+          - name: linstor-vol
+            devicePath: /dev/block
+        securityContext:
+          capabilities:
+            add: ["SYS_RAWIO"]
+      restartPolicy: Never
+      volumes:
+        - name: linstor-vol
+          persistentVolumeClaim:
+            claimName: linstor-r2-n0-0
+      initContainers:
+      - name: wait-for-sync
+        image: curlimages/curl
+        command: ["/bin/sh"]
+        args: ["-c", "t=1; while [ $t -gt 0 ]; do t=0; for i in $(curl -s linstor-op-ns-node-monitoring.default.svc:9942 | grep outofsync | cut -d' ' -f2 | grep -o [0-9]*); do t=$(($t+$i)); done; sleep 10s; done"]
+  backoffLimit: 4

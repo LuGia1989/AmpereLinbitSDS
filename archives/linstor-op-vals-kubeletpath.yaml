@@ -1,0 +1,39 @@
+operator:
+  controller:
+    dbConnectionURL: k8s
+  satelliteSet:
+    storagePools:
+      lvmPools:
+      - name: lvm-thick-nvme0n1
+        volumeGroup: "thickpool-n0"
+        devicePaths:
+        - /dev/nvme0n1
+      - name: lvm-thick-nvme1n1
+        volumeGroup: "thickpool-n1"
+        devicePaths:
+        - /dev/nvme1n1
+      - name: lvm-thick-nvme3n1
+        volumeGroup: "thickpool-n3"
+        devicePaths:
+        - /dev/nvme3n1
+      - name: lvm-thick-nvme4n1
+        volumeGroup: "thickpool-n4"
+        devicePaths:
+        - /dev/nvme4n1
+      - name: lvm-thick-nvme5n1
+        volumeGroup: "thickpool-n5"
+        devicePaths:
+        - /dev/nvme5n1
+      - name: metapool-nvme6n1
+        volumeGroup: "metapool-n6"
+        devicePaths:
+        - /dev/nvme6n1
+    kernelModuleInjectionImage: drbd.io/arm64/drbd9-jammy
+    kernelModuleInjectionMode: Compile
+etcd:
+  enabled: false
+stork:
+  enabled: false
+csi:
+  enableTopology: true
+  csi.kubeletPath: "/var/snap/microk8s/common/var/lib/kubelet"

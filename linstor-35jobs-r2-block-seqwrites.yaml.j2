@@ -1,0 +1,75 @@
+{% set storage_pools =  [{ "sp": "r2-n0" },
+                         { "sp": "r2-n1" },
+                         { "sp": "r2-n3" },
+                         { "sp": "r2-n4" },
+                         { "sp": "r2-n5" },
+                         { "sp": "r2-n7" },
+                         { "sp": "r2-n8" }]
+-%}
+{% for p in storage_pools -%}
+{%   set sp = p["sp"] -%}
+{%   for i in range(5) -%}
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: linstor-{{ sp }}-{{ i }}
+spec:
+  accessModes:
+    - ReadWriteOnce
+  volumeMode: Block
+  resources:
+    requests:
+      storage: 10Gi
+  storageClassName: linstor-{{ sp }}
+---
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: fio-bench-{{ sp }}-{{ i }}
+  labels:
+    app: linstorbench
+  namespace: default
+spec:
+  template:
+    metadata:
+      labels:
+        app: linstorbench
+    spec:
+      containers:
+      - name: fio-bench
+        image: kermat/arm64-ubuntu-fio:0.0.1
+        command: ["/usr/bin/fio"]
+        args:
+          - --name=iops-test
+          - --filename=/dev/block
+          - --ioengine=libaio
+          - --direct=1
+          - --invalidate=0
+          - --rw=write
+          - --bs=128k
+          - --runtime=300s
+          - --numjobs=4
+          - --iodepth=64
+          - --group_reporting
+          - --time_based
+          - --significant_figures=10
+        volumeDevices:
+          - name: linstor-vol
+            devicePath: /dev/block
+        securityContext:
+          capabilities:
+            add: ["SYS_RAWIO"]
+      restartPolicy: Never
+      volumes:
+        - name: linstor-vol
+          persistentVolumeClaim:
+            claimName: linstor-{{ sp }}-{{ i }}
+      initContainers:
+      - name: wait-for-sync
+        image: curlimages/curl
+        command: ["/bin/sh"]
+        args: ["-c", "sleep 10s; t=1; while [ $t -gt 0 ]; do t=0; sleep 2s; for i in $(curl -s linstor-op-ns-node-monitoring.default.svc:9942 | grep outofsync | cut -d' ' -f2 | grep -o [0-9]*); do t=$(($t+$i)); done; done"]
+  backoffLimit: 4
+{%   endfor -%}
+{% endfor -%}
